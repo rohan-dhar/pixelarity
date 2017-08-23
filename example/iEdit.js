@@ -12,31 +12,65 @@ $(document).ready(function(){
 
 
 	//Inserting required elements.
-	var iEditHTML = '<div class="iEdit-img-edit"><canvas class="iEdit-img-edit-can"></canvas><canvas class="iEdit-img-edit-process-can"></canvas><div class="iEdit-img-edit-select"><div class="iEdit-img-edit-select-resize"></div></div><div class="iEdit-img-edit-act iEdit-img-edit-save"> Done </div><div class="iEdit-img-edit-act iEdit-img-edit-cancel"> Cancel </div></div>';
+	var iEditHTML = '<div class="iEdit-img-edit"><canvas class="iEdit-img-edit-can"> </canvas><canvas class="iEdit-img-edit-process-can"></canvas><div class="iEdit-img-edit-select"><div class="iEdit-img-edit-select-resize"></div></div> <div id="iEdit-side-opt-holder"> <div class="iEdit-side-opt iEdit-active-side-opt" id="iEdit-side-opt-crop"> Crop </div> <div class="iEdit-side-opt" id="iEdit-side-opt-draw"> Draw </div> <div class="iEdit-side-opt" id="iEdit-side-opt-filter"> Filters </div> </div>  <div id="iEdit-filter-opt-cont"><div class="iEdit-filter-opt iEdit-active-filter-opt" id="iEdit-filter-opt-1">None</div><div class="iEdit-filter-opt" id="iEdit-filter-opt-2">Grayscale</div><div class="iEdit-filter-opt" id="iEdit-filter-opt-3">Chrome</div><div class="iEdit-filter-opt" id="iEdit-filter-opt-4">Nova</div><div class="iEdit-filter-opt" id="iEdit-filter-opt-5">Blur</div></div>  <div id="iEdit-draw-opt-color-cont"><div class="iEdit-draw-opt-color" id="iEdit-draw-opt-color-1"></div><div class="iEdit-draw-opt-color" id="iEdit-draw-opt-color-2"></div><div class="iEdit-draw-opt-color iEdit-active-draw-opt-color" id="iEdit-draw-opt-color-3"></div><div class="iEdit-draw-opt-color" id="iEdit-draw-opt-color-4"></div><div class="iEdit-draw-opt-color" id="iEdit-draw-opt-color-5"></div><div class="iEdit-draw-opt-color" id="iEdit-draw-opt-color-6"></div></div> <div class="iEdit-img-edit-act iEdit-img-edit-save"> Done </div><div class="iEdit-img-edit-act iEdit-img-edit-cancel"> Cancel </div></div>';
 	$("body").append(iEditHTML);
-	
-	
+		
 	//Main Image Editor Object
 	window.iEdit = {
 
 		//Caching Selectors
 		can: $('.iEdit-img-edit-can')[0],
+		ctx: null,
 		processCan: $('.iEdit-img-edit-process-can')[0],
+
 		selectionBox: $('.iEdit-img-edit-select'),
 		container: $('.iEdit-img-edit'),
+
 		saveBtn: $(".iEdit-img-edit-save"),
 		cancelBtn: $('.iEdit-img-edit-cancel'),
+
+		sideOpts: $(".iEdit-side-opt"),
+		sideOptCrop: $("#iEdit-side-opt-crop"),
+		sideOptDraw: $("#iEdit-side-opt-draw"),		
+		sideOptFilter: $("#iEdit-side-opt-filter"),		
+
+		drawOptsColorsContainer: $("#iEdit-draw-opt-color-cont"),
+		drawOptsColors: $(".iEdit-draw-opt-color"),				
+		drawOptColor1: $("#iEdit-draw-opt-color-1"),				
+		drawOptColor1: $("#iEdit-draw-opt-color-2"),				
+		drawOptColor1: $("#iEdit-draw-opt-color-3"),						
+		drawOptColor1: $("#iEdit-draw-opt-color-4"),				
+		drawOptColor1: $("#iEdit-draw-opt-color-5"),				
+		drawOptColor1: $("#iEdit-draw-opt-color-6"),				
+
+		filterOptsContainer: $("#iEdit-filter-opt-cont"),
+		filterOpts: $(".iEdit-filter-opt"),
+		filterOptNone: $("#iEdit-filter-opt-1"),
+		filterOptGray: $("#iEdit-filter-opt-2"),
+		filterOptChrome: $("#iEdit-filter-opt-3"),
+		filterOptNova: $("#iEdit-filter-opt-4"),
+		filterOptBlur: $("#iEdit-filter-opt-5"),
 
 		//Internal Properties
 		drag: false,
 		resize: false,
+
 		square: true,
 		status: false,
+
 		grcx: null,
 		grcy: null,
+
 		callback: null,
+
 		imageType: null,
 		imageQuality: 1,
+
+		tool: "crop",
+
+		drawing: false,
+		colors: ["000000", "ffffff", "2795f3", "ec5454", "2ecc71", "efd244"],
+		drawColor: "2795f3",
 
 		//Open the Image Editor with appropriate settings
 		open: function(imgObj, square, callback, imageType, imageQuality){
@@ -48,6 +82,8 @@ $(document).ready(function(){
 			this.drag = false;
 			this.resize = false;
 			
+			this.changeTool("crop");
+
 			//Using the supplied settings or using defaults in case of invalid settings
 
 			this.square = (square === true) ? true : false;
@@ -61,15 +97,15 @@ $(document).ready(function(){
 
 			//false: Not In Use
 			this.grcx = false;
-			this.grcy = false;
-			
+			this.grcy = false;					
+
 			//Checking if callback is a valid function
 			var getType = {};
 			this.callback = (callback && getType.toString.call(callback) === '[object Function]') ? callback : false;
 			 
 			this.status = true;
 
-			var ctx = this.can.getContext("2d");
+			this.ctx = this.can.getContext("2d");
 
 			//Shwoing the conatiner on screen
 			iEdit.container.css("display","block").stop().animate({"opacity":"1"});
@@ -88,10 +124,10 @@ $(document).ready(function(){
 					that.can.style.height = (img.height*(($(window).width()/2*1)/img.width))+"px";
 	
 					
-					ctx.fillStyle = '#fff'; 
-					ctx.fillRect(0, 0, that.can.width, that.can.height);
+					iEdit.ctx.fillStyle = '#fff'; 
+					iEdit.ctx.fillRect(0, 0, that.can.width, that.can.height);
 
-					ctx.drawImage(img, 0, 0, that.can.width, that.can.height);
+					iEdit.ctx.drawImage(img, 0, 0, that.can.width, that.can.height);
 
 					iEdit.selectionBox.height($(that.can).height()-20);
 					iEdit.selectionBox.width($(that.can).height()-20);
@@ -106,10 +142,10 @@ $(document).ready(function(){
 					that.can.style.width = (img.width*(($(window).height()/3*2)/img.height)) + "px";
 					that.can.style.height = ($(window).height()/3*2) + "px"; 
 
-					ctx.fillStyle = '#fff'; 
-					ctx.fillRect(0, 0, that.can.width, that.can.height);
+					iEdit.ctx.fillStyle = '#fff'; 
+					iEdit.ctx.fillRect(0, 0, that.can.width, that.can.height);
 
-					ctx.drawImage(img, 0, 0, that.can.width, that.can.height);
+					iEdit.ctx.drawImage(img, 0, 0, that.can.width, that.can.height);
 
 					iEdit.selectionBox.height($(that.can).width()-20);
 					iEdit.selectionBox.width($(that.can).width()-20);
@@ -126,10 +162,10 @@ $(document).ready(function(){
 					that.can.style.height = ($(window).height()/4.8*3.3) + "px";					
 
 
-					ctx.fillStyle = '#fff'; 
-					ctx.fillRect(0, 0, that.can.width, that.can.height);
+					iEdit.ctx.fillStyle = '#fff'; 
+					iEdit.ctx.fillRect(0, 0, that.can.width, that.can.height);
 
-					ctx.drawImage(img, 0, 0, that.can.width, that.can.height);
+					iEdit.ctx.drawImage(img, 0, 0, that.can.width, that.can.height);
 
 					iEdit.selectionBox.height($(that.can).width()-20);
 					iEdit.selectionBox.width($(that.can).width()-20);
@@ -137,10 +173,80 @@ $(document).ready(function(){
 					iEdit.selectionBox.css({'left': (($(window).width()/2) - $(that.can).width()/2) + 10  + 'px' ,'top': $(window).height()/2 - $(that.can).width()/2 - 15 + 'px' });
 				}
 
-			});
-			
+				var ratio = iEdit.can.width/$(iEdit.can).width();
+				var h = iEdit.can.height * ratio;
+				var w = iEdit.can.width * ratio;		
+
+				iEdit.processCan.height = h;
+				iEdit.processCan.width = w;		
+				
+				var pCtx = iEdit.processCan.getContext("2d");
+				pCtx.drawImage(iEdit.can, 0, 0, w, h);
+
+			});			
+
 			img.src = URL.createObjectURL(imgObj);
 			return true;
+		},
+
+		changeTool: function(tool){
+
+			if(tool == "crop"){
+				this.selectionBox.css("display", "block");
+
+				this.tool = "crop";
+				this.sideOpts.removeClass("iEdit-active-side-opt");
+				this.sideOptCrop.addClass("iEdit-active-side-opt");
+				
+				this.drawOptsColorsContainer.css("display", "none");
+				this.filterOptsContainer.css("display", "none");
+				
+				
+				return true;
+
+			}else if(tool == "draw"){
+				
+				this.tool = "draw";
+				this.sideOpts.removeClass("iEdit-active-side-opt");
+				this.sideOptDraw.addClass("iEdit-active-side-opt");
+				
+				this.selectionBox.css("display", "none");
+				this.filterOptsContainer.css("display", "none");
+				
+				this.drawOptsColorsContainer.css("display", "block");
+
+				return true;
+
+			}else if(tool == "filter"){
+				this.sideOpts.removeClass("iEdit-active-side-opt");
+				this.sideOptFilter.addClass("iEdit-active-side-opt");
+				
+				this.drawOptsColorsContainer.css("display", "none");
+				this.selectionBox.css("display", "none");
+
+				this.filterOptsContainer.css("display", "block");	
+			}
+
+		},
+
+		changeFilter: function(filter){
+		
+			iEdit.filterOpts.removeClass("iEdit-active-filter-opt");
+			$("#iEdit-filter-opt-"+filter).addClass("iEdit-active-filter-opt");
+	
+			if(filter == 1){
+				iEdit.ctx.filter = "none";				
+			}else if(filter == 2){
+				iEdit.ctx.filter = "grayscale(1)";								
+			}else if(filter == 3){
+				iEdit.ctx.filter = "sepia(0.42) saturate(1.4) contrast(1.1)";							
+			}else if(filter == 4){
+				iEdit.ctx.filter = "grayscale(0.25) saturate(0.75) contrast(1.5)";								
+			}else if(filter == 5){
+				iEdit.ctx.filter = "blur(14px)";				
+			}
+			this.ctx.height = this.ctx.height;
+			this.ctx.drawImage(iEdit.processCan, 0, 0, iEdit.can.width,  iEdit.can.height);
 		},
 
 		//Close the image editor and reset the settings.
@@ -159,10 +265,14 @@ $(document).ready(function(){
 			this.processCan.height = 0;
 			this.processCan.width = 0;
 
-			var pCtx = this.processCan.getContext("2d");			
-			var ctx = this.can.getContext("2d");
 
-			ctx.clearRect(0, 0, 0, 0);
+			iEdit.ctx.filter = "none";
+			iEdit.filterOpts.removeClass("iEdit-active-filter-opt");
+			iEdit.filterOptNone.addClass("iEdit-active-filter-opt");			
+
+			var pCtx = this.processCan.getContext("2d");			
+
+			iEdit.ctx.clearRect(0, 0, 0, 0);
 			pCtx.clearRect(0, 0, 0, 0);
 		
 			iEdit.selectionBox.css({
@@ -185,14 +295,14 @@ $(document).ready(function(){
 	$(document).on("mouseup",function(){
 		iEdit.drag = false;
 		iEdit.resize = false;	
-
 		iEdit.grcx = false;
 		iEdit.grcy = false;
+		iEdit.drawing = false;
 	});
 
 
 	//Set flags to start trachong mouse movement.
-	iEdit.selectionBox.on("mousedown",function(e){
+	iEdit.selectionBox.on("mousedown", function(e){
 		var that = $(this);
 
 		var rcx = e.clientX - windowOffset(that).left;
@@ -209,7 +319,16 @@ $(document).ready(function(){
 			iEdit.resize = false;
 		}
 
+	});
 
+	$(iEdit.can).on("mousedown", function(e){
+		if(iEdit.tool == "draw"){
+			iEdit.drawing = true;
+			var ratio = iEdit.can.width/$(iEdit.can).width();
+			iEdit.lastDrawX = (e.clientX - windowOffset($(iEdit.can)).left) * ratio;
+			iEdit.lastDrawY = (e.clientY - windowOffset($(iEdit.can)).top) * ratio;
+
+		}
 	});
 
 
@@ -310,6 +429,25 @@ $(document).ready(function(){
 				"height":nHeight+"px",				
 			});
 	
+		}else if(iEdit.drawing && iEdit.status){
+
+			var ratio = iEdit.can.width/$(iEdit.can).width();
+			var x = (e.clientX - windowOffset($(iEdit.can)).left) * ratio;
+			var y = (e.clientY - windowOffset($(iEdit.can)).top) * ratio;
+			
+			var n = 250;
+			
+			iEdit.ctx.fillStyle = "#"+iEdit.drawColor;
+
+			for(var i = 1; i <= n; i++){					
+				iEdit.ctx.beginPath();			
+				iEdit.ctx.arc(x - (x-iEdit.lastDrawX) / n * i, y - (y-iEdit.lastDrawY) / n * i, ratio * 3 , 0, 2 * Math.PI, false);
+				iEdit.ctx.fill();
+			}
+
+			iEdit.lastDrawX = x;
+			iEdit.lastDrawY = y;		
+
 		}
 
 	});
@@ -320,6 +458,11 @@ $(document).ready(function(){
 		if(!iEdit.callback){
 			iEdit.close();
 			return;
+		}
+
+		if(iEdit.tool != "crop"){			
+			iEdit.changeTool("crop");
+			return;			
 		}
 
 		var ratio = iEdit.can.width/$(iEdit.can).width();
@@ -347,10 +490,29 @@ $(document).ready(function(){
 		iEdit.close();
 	});
 
+
+	iEdit.sideOpts.click(function(){
+		var t = $(this).attr("id").substr(15);
+		iEdit.changeTool(t);
+	});
+
 	//Setup canvas when window is resized. 
 	$(window).on("resize", function(){
 		if(iEdit.status){
 			iEdit.selectionBox.css({'left': (($(window).width()/2) - $(iEdit.can).height()/2) + 10  + 'px' ,'top': $(window).height()/2 - $(iEdit.can).height()/2 + 10 + 'px' });
 		}
 	});	
+
+	iEdit.drawOptsColors.on("click", function(){
+		var n = Number($(this).attr("id").substr(21)) - 1;
+		iEdit.drawColor = iEdit.colors[n];
+		iEdit.drawOptsColors.removeClass("iEdit-active-draw-opt-color");
+		$(this).addClass("iEdit-active-draw-opt-color");
+	});
+
+	iEdit.filterOpts.on("click", function(){
+		var n = Number($(this).attr("id").substr(17));
+		iEdit.changeFilter(n);
+	});
+
 });
