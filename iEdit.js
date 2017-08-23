@@ -436,14 +436,22 @@ $(document).ready(function(){
 			var x = (e.clientX - windowOffset($(iEdit.can)).left) * ratio;
 			var y = (e.clientY - windowOffset($(iEdit.can)).top) * ratio;
 			
-			var n = 25;
+			var n = 15;
 			
 			iEdit.ctx.fillStyle = "#"+iEdit.drawColor;
+			var pCtx = iEdit.processCan.getContext("2d");
+			pCtx.fillStyle = "#"+iEdit.drawColor;
+
+			var xMove = (x-iEdit.lastDrawX) / n, yMove = (y-iEdit.lastDrawY) / n;
 
 			for(var i = 1; i <= n; i++){					
 				iEdit.ctx.beginPath();			
-				iEdit.ctx.arc(x - (x-iEdit.lastDrawX) / n * i, y - (y-iEdit.lastDrawY) / n * i, ratio * 3 , 0, 2 * Math.PI, false);
+				iEdit.ctx.arc(x - (xMove*i), y - (yMove*i), ratio*3 , 0, 2 * Math.PI, false);
 				iEdit.ctx.fill();
+
+				pCtx.beginPath();			
+				pCtx.arc((x-xMove*i)*ratio, (y-yMove*i)*ratio, ratio * ratio * 3 , 0, 2 * Math.PI, false);
+				pCtx.fill();
 			}
 
 			iEdit.lastDrawX = x;
