@@ -58,7 +58,6 @@ The return can be used to check if the image supplied is valid and take appropri
 
 <h3>Example - Without face detection</h3>
 
-<b><code>pixelarity-face.js</code> or <code>pixelarity-face.min.js</code> must be included for this to work!</b>
 
 <pre>
 <code>
@@ -82,20 +81,28 @@ $(document).ready(function(){<br>
 </code>
 </pre>
 
-<h3>Example - With face detecttion ()</h3>
+<h3>Example - With face detecttion</h3>
+<b><code>pixelarity-face.js</code> or <code>pixelarity-face.min.js</code> must be included for this to work!</b>
 <pre>
 <code>
 $(document).ready(function(){<br>
-	$("input[type=file]").change(function(e){<br>
+	$("#file").change(function(e){<br>
 		var img = e.target.files[0];<br>
-		if( !pixelarity.open(img, true, function(res){<br>
-			$("img#result").attr("src", res);<br>
-		}, "png", 0.85) ){<br>
-			alert("The image provided is not valid!");<br>
+
+		if(!pixelarity.open(img, false, function(res, faces){<br>
+			$("#result").attr("src", res);<br>
+			$(".face").remove();<br>
+			// Looping through the faces returned<br>
+			for(var i = 0; i < faces.length; i++){<br>
+				$("body").append("<div class='face' style='height: "+faces[i].height+"px; width: "+faces[i].width+"px; top: "+($("#result"<br>).offset().top + faces[i].y)+"px; left: "+($("#result").offset().left + faces[i].x)+"px;'>");<br>
+			}<br>
+		}, "jpg", 0.7, true)){<br>
+			alert("Whoops! That is not an image!");<br>
 		}<br>
 	});<br>
 });<br>
 </code>
+
 </pre>
 
 
