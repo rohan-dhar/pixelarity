@@ -218,6 +218,7 @@ $(document).ready(function(){
 				return true;
 
 			}else if(tool == "filter"){
+				this.tool = "filter";
 				this.sideOpts.removeClass("iEdit-active-side-opt");
 				this.sideOptFilter.addClass("iEdit-active-side-opt");
 				
@@ -435,7 +436,7 @@ $(document).ready(function(){
 			var x = (e.clientX - windowOffset($(iEdit.can)).left) * ratio;
 			var y = (e.clientY - windowOffset($(iEdit.can)).top) * ratio;
 			
-			var n = 250;
+			var n = 25;
 			
 			iEdit.ctx.fillStyle = "#"+iEdit.drawColor;
 
