@@ -3,7 +3,7 @@
 	position: fixed;
 	height: 100%;
 	width: 100%;
-	background-color:rgba(10,10,10,0.7);
+	background-color: rgba(0, 0, 0, 0.7);
 	top:0px;
 	left: 0px;
 	z-index: 8;
@@ -43,6 +43,7 @@
 	position: fixed;
 	top: 0px;
 	left: 0px;
+	box-shadow: 0px 0px 4px 2px rgba(10,10,10,0.2);
 	bottom: 50px;
 	right: 0px;
 	margin:auto;
@@ -54,16 +55,123 @@
 
 .iEdit-img-edit-select{
 	position: fixed;
-	background-color: rgba(10,10,10,0.5);
-	box-shadow: inset 0px 0px 0px 3px rgba(256,256,256,0.8);
+	background-color: rgba(10,10,10,0.4);
+	box-shadow: inset 0px 0px 0px 2px rgba(255, 255, 255, 1);
 }
 
 .iEdit-img-edit-select-resize{
 	position: absolute;
 	height: 17px;
 	width: 17px;
-	background-color: rgba(255,255,255,0.8);
-	right: 3px;
-	bottom: 3px;
+	background-color: rgba(255,255,255,1);
+	right: 2px;
+	bottom: 2px;
 	cursor: nwse-resize;
 }
+
+#iEdit-side-opt-holder, #iEdit-draw-opt-cont, #iEdit-draw-opt-color-cont{
+	height: 140px;
+	width: 70px;
+	color: #fff;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	margin: auto;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	background-color: #303038;
+	color: #44ca9a;
+}
+
+.iEdit-side-opt, .iEdit-draw-opt, .iEdit-draw-opt-color{
+	width: 70px;
+	height: 69px;
+	line-height: 70px;
+	border-bottom: 1px solid rgba(10,10,10,0.1);
+	text-align: center;
+	font-family: helvetica neue, segoe ui, roboto, sans-serif;
+	font-size: 9pt;
+	text-transform: uppercase;
+	font-weight: 500;
+	background-color: transparent;
+	cursor: pointer;	
+	-webkit-transition: background-color 0.3s;
+	-moz-transition: background-color 0.3s;
+	-khtml-transition: background-color 0.3s;
+	-o-transition: background-color 0.3s;	
+	-ms-transition: background-color 0.3s;
+	transition: background-color 0.3s;	
+}
+
+
+.iEdit-side-opt:hover{
+	background-color: rgba(10,10,10,0.1);
+}
+
+.iEdit-active-side-opt{
+	background-color: rgba(10,10,10,0.3);
+}
+
+#iEdit-draw-opt-color-cont, #iEdit-draw-opt-cont{
+	height: 140px;
+	width: 80px;
+	left: 0px;
+	right: initial;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+	text-align: center;
+}
+
+
+.iEdit-draw-opt-color{
+	height: 26px;
+	width: 26px;
+	border-radius: 100%;
+	display: inline-block;
+	background-color: rgba(10,10,10,0.1);
+	margin-top: 8px;
+	margin-left: 4px;
+	margin-right: 4px;
+	position: relative;
+	top: 9px;
+}
+
+.iEdit-active-draw-opt{
+	background-color: rgba(10,10,10,0.4);
+}
+
+.iEdit-active-draw-opt-color{
+	height: 20px;
+	width: 20px;
+	border: 3px solid rgba(0, 0, 0, 0.4);
+}
+
+#iEdit-draw-opt-color-1{
+	background-color: #000000;
+}
+#iEdit-draw-opt-color-2{
+	background-color: #ffffff;
+}
+#iEdit-draw-opt-color-3{
+	background-color: #2795f3;
+}
+#iEdit-draw-opt-color-4{
+	background-color: #ec5454;
+}
+#iEdit-draw-opt-color-5{
+	background-color: #2ecc71;
+}
+#iEdit-draw-opt-color-6{
+	background-color: #efd244;
+}
+
+.iEdit-draw-opt{
+	display: block;
+	height: 30px;
+	width: 30px;
+	margin: auto;
+	margin-top: 9px;
+	top: 6px;
