@@ -15,7 +15,7 @@ To use pixelarity, just include pixelarity's script file and the style file. <b>
 Opens the image editor with the provided image object. The image modified by the user it supplied to the callback as a DataURI. Additional settings are supplied as parameters to <code>pixelarity.open()</code>.
 
 <h3>Syntax and Parameter</h3>
-<code>pixelarity.open(imageObject, square, callback, imageType, imageQuality)</code>
+<code>pixelarity.open(imageObject, square, callback, imageType, imageQuality, face)</code>
 <ul>
 <li>
 <b><code>imageObject</code></b><br>
@@ -27,7 +27,13 @@ Optional - Boolean value specifying if the image cropped by the user should only
 <b>Default:</b><code>false</code>
 </li><li>
 <b><code>callback</code></b><br>
-Optional - A function to use the image cropped by the user. The image cropped by the user is supplied to the function as the first parameter.
+Optional - A function to use the image cropped by the user. The image cropped by the user is supplied to the function as the first parameter. If the <code>face</code> parameter of the <code>.open()</code> is set to true, the second parameter supplied to the callback is an array of objects of faces detected. Each object has the following properties:
+<ol>
+	<li><code><b>.x</b></code></li>: X co-ordinate of the face from the top-left of the image.
+	<li><code><b>.y</b></code></li>: Y co-ordinate of the face from the top-left of the image.
+	<li><code><b>.height</b></code></li>: Height of the face.
+	<li><code><b>.x</b></code></li>: Width of the face.
+</ol>
 </li><li>
 <b><code>imageType</code></b><br>
 Optional - A String specifying the type of the image returned to the callback function. Possible values are: "jpeg", "png", "gif" ,"bmp".
@@ -38,6 +44,11 @@ Optional - A String specifying the type of the image returned to the callback fu
 Optional - A Number greater than 0 and less that or equal to 1 specifying the quality of the image returned to the callback function. 
 <br>
 <b>Default:</b><code>1</code>
+</li><li>
+<b><code>face</code></b><br>
+Optional - A boolean value specifying if pixelarity should return any faces found in the image. This option is only available if you include <code>pixelarity-face.js</code> or <code>pixelarity-face.min.js</code>
+<br>
+<b>Default:</b><code>false</code>
 </li>
 </ul>
 
@@ -45,7 +56,33 @@ Optional - A Number greater than 0 and less that or equal to 1 specifying the qu
 Returns <code>true</code> if the image supplied is valid. Returns <code>false</code> if the image supplied is not a valid image.
 The return can be used to check if the image supplied is valid and take appropriate actions.
 
-<h3>Example</h3>
+<h3>Example - Without face detection</h3>
+
+<b><code>pixelarity-face.js</code> or <code>pixelarity-face.min.js</code> must be included for this to work!</b>
+
+<pre>
+<code>
+$(document).ready(function(){<br>
+	$("#file").change(function(e){<br>
+		var img = e.target.files[0];<br>
+
+		if(!pixelarity.open(img, false, function(res, faces){<br>
+			$("#result").attr("src", res);<br>
+			$(".face").remove();<br>
+			// Looping through the faces returned<br>
+			for(var i = 0; i < faces.length; i++){<br>
+				$("body").append("<div class='face' style='height: "+faces[i].height+"px; width: "+faces[i].width+"px; top: "+($("#result"<br>).offset().top + faces[i].y)+"px; left: "+($("#result").offset().left + faces[i].x)+"px;'>");<br>
+			}<br>
+		}, "jpg", 0.7, true)){<br>
+			alert("Whoops! That is not an image!");<br>
+		}<br>
+	});<br>
+});<br>
+
+</code>
+</pre>
+
+<h3>Example - With face detecttion ()</h3>
 <pre>
 <code>
 $(document).ready(function(){<br>
@@ -60,6 +97,8 @@ $(document).ready(function(){<br>
 });<br>
 </code>
 </pre>
+
+
 </li>
 <li>
 <h4><code>pixelarity.close()</code></h4>
