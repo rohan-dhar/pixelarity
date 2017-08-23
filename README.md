@@ -88,7 +88,7 @@ $(document).ready(function(){<br>
 			$(".face").remove();<br>
 			// Looping through the faces returned<br>
 			for(var i = 0; i < faces.length; i++){<br>
-				$("body").append("<div class='face' style='height: "+faces[i].height+"px; width: "+faces[i].width+"px; top: "+($("#result"<br>).offset().top + faces[i].y)+"px; left: "+($("#result").offset().left + faces[i].x)+"px;'>");<br>
+				// Do something with the faces //<br>
 			}<br>
 		}, "jpg", 0.7, true)){<br>
 			alert("Whoops! That is not an image!");<br>
