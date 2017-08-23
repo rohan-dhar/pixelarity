@@ -463,7 +463,6 @@ $(document).ready(function(){
 
 		if(iEdit.tool != "crop"){			
 			iEdit.changeTool("crop");
-			return;			
 		}
 
 		var ratio = iEdit.can.width/$(iEdit.can).width();
