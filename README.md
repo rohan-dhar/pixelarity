@@ -81,7 +81,7 @@ $(document).ready(function(){<br>
 </code>
 </pre>
 
-<h3>Example - With face detecttion</h3>
+<h3>Example - With face detection</h3>
 <b><code>pixelarity-face.js</code> or <code>pixelarity-face.min.js</code> must be included for this to work!</b>
 <pre>
 <code>
