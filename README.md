@@ -64,15 +64,9 @@ The return can be used to check if the image supplied is valid and take appropri
 $(document).ready(function(){<br>
 	$("#file").change(function(e){<br>
 		var img = e.target.files[0];<br>
-
-		if(!pixelarity.open(img, false, function(res, faces){<br>
+		if(!pixelarity.open(img, false, function(res){<br>
 			$("#result").attr("src", res);<br>
-			$(".face").remove();<br>
-			// Looping through the faces returned<br>
-			for(var i = 0; i < faces.length; i++){<br>
-				$("body").append("<div class='face' style='height: "+faces[i].height+"px; width: "+faces[i].width+"px; top: "+($("#result"<br>).offset().top + faces[i].y)+"px; left: "+($("#result").offset().left + faces[i].x)+"px;'>");<br>
-			}<br>
-		}, "jpg", 0.7, true)){<br>
+		}, "jpg", 0.7)){<br>
 			alert("Whoops! That is not an image!");<br>
 		}<br>
 	});<br>
