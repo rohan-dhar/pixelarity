@@ -1,4 +1,4 @@
-.iEdit-img-edit{
+.pixelarity-img-edit{
 	display: none;
 	position: fixed;
 	height: 100%;
@@ -15,7 +15,7 @@
 	user-select: none;
 }
 
-.iEdit-img-edit-act{
+.pixelarity-img-edit-act{
 	height: 37px;
 	width: 70px;
 	position: absolute;
@@ -34,12 +34,12 @@
 	font-size: 8pt;	
 }
 
-.iEdit-img-edit-cancel{
+.pixelarity-img-edit-cancel{
 	margin-left: 16px;
 	background-color: #ee5155;
 }
 
-.iEdit-img-edit-can{
+.pixelarity-img-edit-can{
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -49,17 +49,17 @@
 	margin:auto;
 }
 
-.iEdit-img-edit-process-can{
+.pixelarity-img-edit-process-can{
 	display: none;
 }
 
-.iEdit-img-edit-select{
+.pixelarity-img-edit-select{
 	position: fixed;
 	background-color: rgba(10,10,10,0.4);
 	box-shadow: inset 0px 0px 0px 2px rgba(255, 255, 255, 1);
 }
 
-.iEdit-img-edit-select-resize{
+.pixelarity-img-edit-select-resize{
 	position: absolute;
 	height: 17px;
 	width: 17px;
@@ -69,7 +69,7 @@
 	cursor: nwse-resize;
 }
 
-#iEdit-side-opt-holder, #iEdit-draw-opt-color-cont, #iEdit-filter-opt-cont{
+#pixelarity-side-opt-holder, #pixelarity-draw-opt-color-cont, #pixelarity-filter-opt-cont{
 	height: 210px;
 	width: 70px;
 	color: #fff;
@@ -84,7 +84,7 @@
 	color: #dadada;
 }
 
-.iEdit-side-opt, .iEdit-draw-opt, .iEdit-draw-opt-color{
+.pixelarity-side-opt, .pixelarity-draw-opt, .pixelarity-draw-opt-color{
 	width: 70px;
 	height: 69px;
 	line-height: 70px;
@@ -105,15 +105,15 @@
 }
 
 
-.iEdit-side-opt:hover{
+.pixelarity-side-opt:hover{
 	background-color: rgba(10,10,10,0.1);
 }
 
-.iEdit-active-side-opt{
+.pixelarity-active-side-opt{
 	background-color: rgba(10,10,10,0.2);
 }
 
-#iEdit-draw-opt-color-cont, #iEdit-filter-opt-cont{
+#pixelarity-draw-opt-color-cont, #pixelarity-filter-opt-cont{
 	height: 140px;
 	width: 80px;
 	left: 0px;
@@ -126,7 +126,7 @@
 }
 
 
-.iEdit-draw-opt-color{
+.pixelarity-draw-opt-color{
 	height: 26px;
 	width: 26px;
 	border-radius: 100%;
@@ -139,41 +139,41 @@
 	top: 9px;
 }
 
-.iEdit-active-draw-opt{
+.pixelarity-active-draw-opt{
 	background-color: rgba(10,10,10,0.4);
 }
 
-.iEdit-active-draw-opt-color{
+.pixelarity-active-draw-opt-color{
 	height: 20px;
 	width: 20px;
 	border: 3px solid rgba(0, 0, 0, 0.4);
 }
 
-#iEdit-draw-opt-color-1{
+#pixelarity-draw-opt-color-1{
 	background-color: #000000;
 }
-#iEdit-draw-opt-color-2{
+#pixelarity-draw-opt-color-2{
 	background-color: #ffffff;
 }
-#iEdit-draw-opt-color-3{
+#pixelarity-draw-opt-color-3{
 	background-color: #2795f3;
 }
-#iEdit-draw-opt-color-4{
+#pixelarity-draw-opt-color-4{
 	background-color: #ec5454;
 }
-#iEdit-draw-opt-color-5{
+#pixelarity-draw-opt-color-5{
 	background-color: #2ecc71;
 }
-#iEdit-draw-opt-color-6{
+#pixelarity-draw-opt-color-6{
 	background-color: #efd244;
 }
 
-#iEdit-filter-opt-cont{
+#pixelarity-filter-opt-cont{
 	height: 235px;
 	width: 100px;
 }
 
-.iEdit-filter-opt{
+.pixelarity-filter-opt{
 	position: relative;
 	height: 32px;
 	line-height: 32px;
@@ -197,9 +197,9 @@
 }
 
 
-.iEdit-filter-opt:hover{
+.pixelarity-filter-opt:hover{
 	background-color: rgba(10,10,10,0.2);
 }
 
-.iEdit-active-filter-opt{
+.pixelarity-active-filter-opt{
 	background-color: rgba(10,10,10,0.32);
