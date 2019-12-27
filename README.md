@@ -62,15 +62,15 @@ The return can be used to check if the image supplied is valid and take appropri
 <pre>
 <code>
 $(document).ready(function(){<br>
-	$("#file").change(function(e){<br>
-		var img = e.target.files[0];<br>
-		if(!pixelarity.open(img, false, function(res){<br>
-			$("#result").attr("src", res);<br>
-		}, "jpg", 0.7)){<br>
-			alert("Whoops! That is not an image!");<br>
-		}<br>
-	});<br>
-});<br>
+	$("#file").change(function(e){
+		var img = e.target.files[0];
+		if(!pixelarity.open(img, false, function(res){
+			$("#result").attr("src", res);
+		}, "jpg", 0.7)){
+			alert("Whoops! That is not an image!");
+		}
+	});
+});
 
 </code>
 </pre>
@@ -81,19 +81,19 @@ $(document).ready(function(){<br>
 <code>
 $(document).ready(function(){<br>
 	$("#file").change(function(e){<br>
-		var img = e.target.files[0];<br>
+		var img = e.target.files[0];
 
-		if(!pixelarity.open(img, false, function(res, faces){<br>
-			$("#result").attr("src", res);<br>
-			$(".face").remove();<br>
+		if(!pixelarity.open(img, false, function(res, faces){
+			$("#result").attr("src", res);
+			$(".face").remove();
 			// Looping through the faces returned<br>
-			for(var i = 0; i < faces.length; i++){<br>
-				// Do something with the faces //<br>
-			}<br>
-		}, "jpg", 0.7, true)){<br>
-			alert("Whoops! That is not an image!");<br>
-		}<br>
-	});<br>
+			for(var i = 0; i < faces.length; i++){
+				// Do something with the faces //
+			}
+		}, "jpg", 0.7, true)){
+			alert("Whoops! That is not an image!");
+		}
+	});
 });<br>
 </code>
 
